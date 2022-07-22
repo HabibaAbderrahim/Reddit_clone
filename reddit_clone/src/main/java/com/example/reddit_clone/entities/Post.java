@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
@@ -37,4 +38,6 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="subredditId" , referencedColumnName = "subId")
     private Subreddit subreddit ;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Comment> comments ;
 }
