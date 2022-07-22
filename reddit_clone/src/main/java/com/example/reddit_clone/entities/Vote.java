@@ -1,5 +1,6 @@
 package com.example.reddit_clone.entities;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +16,12 @@ import javax.persistence.*;
 public class Vote {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long postId ;
+    private long voteId ;
     private VoteType voteType ;
     //relations
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "postId" , referencedColumnName = "postId")
+
+    @ManyToOne(fetch = FetchType.LAZY )
+    @JoinColumn(name = "postId" , referencedColumnName = "postId" )
     private Post post ;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId" , referencedColumnName = "userId")
