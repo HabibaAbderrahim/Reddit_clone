@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Data
 @Builder
@@ -20,5 +21,12 @@ public class Comment {
     @NotNull
     @Lob
     private String text ;
+    private Instant createDate ;
     //relations
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId" , referencedColumnName = "userId")
+    private User user ;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId" , referencedColumnName = "postId")
+    private Post post ;
 }

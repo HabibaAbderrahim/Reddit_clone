@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,7 +18,7 @@ import javax.persistence.*;
 public class Subreddit {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long id ;
+    private  long subId ;
     @NotNull
     private  String name ;
     @NotNull
@@ -25,6 +26,11 @@ public class Subreddit {
     private String decription ;
 
     //relations
-    //post oneToMany
+    //post oneToMany bi
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Post> posts;
     //user ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId" , referencedColumnName = "userId")
+    private User user ;
 }

@@ -30,5 +30,11 @@ public class Post {
     private Instant createdDate ;
     //Relations
     //uer
-    //subReddit
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId" , referencedColumnName = "userId")
+    private  User user ;
+    //subReddit bidir
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="subredditId" , referencedColumnName = "subId")
+    private Subreddit subreddit ;
 }

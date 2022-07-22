@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Builder
@@ -21,4 +18,10 @@ public class Vote {
     private long postId ;
     private VoteType voteType ;
     //relations
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "postId" , referencedColumnName = "postId")
+    private Post post ;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId" , referencedColumnName = "userId")
+    private User user ;
 }
