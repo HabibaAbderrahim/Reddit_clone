@@ -1,4 +1,4 @@
-package com.example.reddit_clone.services;
+package com.example.reddit_clone.services.mails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,8 @@ public class MailContetntBuilder {
         return templateEngine.process("mailTemplate",context);
 
     }
+
+
 
 
 }
