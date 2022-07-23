@@ -13,6 +13,6 @@ import javax.persistence.Entity;
 @Entity
 public class NotificationMail {
     private String subject ;
-    private String sender ;
+    private String recipient ;
     private String body ;
 }
