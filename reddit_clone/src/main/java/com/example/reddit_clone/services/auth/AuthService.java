@@ -1,4 +1,4 @@
-package com.example.reddit_clone.services;
+package com.example.reddit_clone.services.auth;
 
 import com.example.reddit_clone.DTO.RegisterRequest;
 import com.example.reddit_clone.entities.User;
