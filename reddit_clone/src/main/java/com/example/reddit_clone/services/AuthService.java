@@ -4,6 +4,7 @@ import com.example.reddit_clone.DTO.RegisterRequest;
 import com.example.reddit_clone.entities.User;
 import com.example.reddit_clone.entities.VerficationToken;
 import com.example.reddit_clone.repositories.UserRepository;
+import com.example.reddit_clone.repositories.VerifTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder ;//better if we used constructor injection
     @Autowired
-    private VerficationToken verficationToken ;
+    private VerifTokenRepository verifTokenRepository;
 
     @Transactional //DB
     public void signup(RegisterRequest registerRequest){
@@ -32,19 +33,24 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));//new Bcrypt
         user.setCreateDate(Instant.now());
         user.setEnabled(false);//once validated TRUE
-
+        //save user to database
         userRepository.save(user) ;
 
         //call
-        generateVerificationToken(user);
+        String token = generateVerificationToken(user);
+
 
     }
 
-    private void generateVerificationToken(User user){
+    private String generateVerificationToken(User user){
         VerficationToken verficationToken = new VerficationToken();
         String token = UUID.randomUUID().toString(); //generate random token bite of 8
         verficationToken.setToken(token);
         verficationToken.setUser(user);
+
+        //save Token related to user into DB
+        verifTokenRepository.save(verficationToken);
+        return token ;
 
     }
 }
