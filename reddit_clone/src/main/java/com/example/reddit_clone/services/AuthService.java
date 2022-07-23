@@ -35,7 +35,6 @@ public class AuthService {
         user.setEnabled(false);//once validated TRUE
         //save user to database
         userRepository.save(user) ;
-
         //call
         String token = generateVerificationToken(user);
 
