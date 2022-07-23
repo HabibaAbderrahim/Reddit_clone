@@ -28,4 +28,5 @@ public class User {
     @NotNull
     private String email ;
     private Instant createDate ;
+    private boolean enabled ; //login
 }
