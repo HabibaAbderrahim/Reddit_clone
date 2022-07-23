@@ -20,7 +20,7 @@ import java.time.Instant;
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long userId ;
+    private  Long userId ;
     @NotNull
     private String userName ;
     @NotNull

@@ -19,7 +19,7 @@ import java.util.List;
 public class Post {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long postId ;
+    private Long postId ;
     @NotNull
     private String name ;
     @Nullable

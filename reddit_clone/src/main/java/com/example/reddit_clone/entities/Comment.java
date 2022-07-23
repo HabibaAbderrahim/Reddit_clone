@@ -17,7 +17,7 @@ import java.time.Instant;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id ;
+    private Long id ;
     @NotNull
     @Lob
     private String text ;
