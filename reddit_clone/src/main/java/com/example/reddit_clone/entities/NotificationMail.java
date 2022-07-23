@@ -10,8 +10,9 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+
 public class NotificationMail {
+
     private String subject ;
     private String recipient ;
     private String body ;
