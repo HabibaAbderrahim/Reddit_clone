@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Service
+@Transactional //DB
 public class AuthService {
 
     @Autowired
@@ -27,24 +28,27 @@ public class AuthService {
     @Autowired
     private MailService mailService ;
 
-    @Transactional //DB
-    public void signup(RegisterRequest registerRequest){
 
-        User user = new User() ;
+
+    public void signup(RegisterRequest registerRequest){
         //take registerrequest proprties and set them into user
-        user.setEmail(registerRequest.getEmail());
-        user.setUserName(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));//new Bcrypt
-        user.setCreateDate(Instant.now());
-        user.setEnabled(false);//once validated TRUE
         //save user to database
-        userRepository.save(user) ;
         //call
-        String token = generateVerificationToken(user);
        //Mail service after user activates mai : True , sendMail
-        mailService.sendMail(new NotificationMail("Reddit Verify your mail addresse", user.getEmail(), "Click to the URl to activate your Reddit Account :" +
-                "http://localhost:9090/api/authentification/account_verification" + "Token :" +token
-        ));
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setCreateDate(Instant.now());
+        user.setEnabled(false);
+
+        userRepository.save(user);
+
+        String token = generateVerificationToken(user);
+        mailService.sendMail(new NotificationMail("Activate your Reddit Account",
+                user.getEmail(),
+                "please click on the below url to activate your account : " +
+                "http://localhost:8080/api/auth/accountVerification/" +"Token:" + token));
 
     }
 
