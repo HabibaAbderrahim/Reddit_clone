@@ -12,12 +12,10 @@ public class MailContetntBuilder {
     private TemplateEngine templateEngine ;//thym
 
     //email msg we want to sent to the user as input
-    String build(String message){
-
+    public String build(String message) {
         Context context = new Context();
-        context.setVariable("msg",message);
-        return templateEngine.process("mailTemplate",context);
-
+        context.setVariable("msg", message);
+        return templateEngine.process("mailTemplate", context);
     }
 
 
