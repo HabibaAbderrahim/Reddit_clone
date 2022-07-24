@@ -1,10 +1,12 @@
 package com.example.reddit_clone.services.auth;
 
 import com.example.reddit_clone.DTO.RegisterRequest;
+import com.example.reddit_clone.entities.NotificationMail;
 import com.example.reddit_clone.entities.User;
 import com.example.reddit_clone.entities.VerficationToken;
 import com.example.reddit_clone.repositories.UserRepository;
 import com.example.reddit_clone.repositories.VerifTokenRepository;
+import com.example.reddit_clone.services.mails.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class AuthService {
     private PasswordEncoder passwordEncoder ;//better if we used constructor injection
     @Autowired
     private VerifTokenRepository verifTokenRepository;
+    @Autowired
+    private MailService mailService ;
 
     @Transactional //DB
     public void signup(RegisterRequest registerRequest){
@@ -37,7 +41,10 @@ public class AuthService {
         userRepository.save(user) ;
         //call
         String token = generateVerificationToken(user);
-
+       //Mail service after user activates mai : True , sendMail
+        mailService.sendMail(new NotificationMail("Reddit Verify your mail addresse", user.getEmail(), "Click to the URl to activate your Reddit Account :" +
+                "http://localhost:9090/api/authentification/account_verification" + "Token :" +token
+        ));
 
     }
 
