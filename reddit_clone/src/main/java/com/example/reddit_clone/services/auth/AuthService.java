@@ -1,6 +1,7 @@
 package com.example.reddit_clone.services.auth;
 
 import com.example.reddit_clone.DTO.RegisterRequest;
+import com.example.reddit_clone.DTO.SpringRedditException;
 import com.example.reddit_clone.entities.NotificationMail;
 import com.example.reddit_clone.entities.User;
 import com.example.reddit_clone.entities.VerficationToken;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +29,7 @@ public class AuthService {
     private VerifTokenRepository verifTokenRepository;
     @Autowired
     private MailService mailService ;
+
 
 
 
@@ -48,7 +51,7 @@ public class AuthService {
         mailService.sendMail(new NotificationMail("Activate your Reddit Account",
                 user.getEmail(),
                 "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" +"Token:" + token));
+                "http://localhost:8080/api/auth/accountVerification/" + "Token:" + token));
 
     }
 
@@ -61,6 +64,25 @@ public class AuthService {
         //save Token related to user into DB
         verifTokenRepository.save(verficationToken);
         return token ;
+
+    }
+
+
+    public void accountVerification (String token){
+      //if token do not exists return Exp
+          Optional<VerficationToken> verficationToken = verifTokenRepository.findByToken(token);
+          verficationToken.orElseThrow(()-> new SpringRedditException("Invalid Token !"));
+          //after validation Enable that user
+          findUserAndEnable(verficationToken.get());
+
+    }
+
+    public void findUserAndEnable(VerficationToken verficationToken){
+        User user = verficationToken.getUser();
+        //find user
+        userRepository.findById(user.getUserId()).orElseThrow(()-> new SpringRedditException("User not Found !"));
+        user.setEnabled(true);
+        userRepository.save(user);
 
     }
 }
