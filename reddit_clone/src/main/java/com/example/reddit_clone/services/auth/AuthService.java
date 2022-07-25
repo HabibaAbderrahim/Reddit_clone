@@ -1,5 +1,6 @@
 package com.example.reddit_clone.services.auth;
 
+import com.example.reddit_clone.DTO.LoginRequest;
 import com.example.reddit_clone.DTO.RegisterRequest;
 import com.example.reddit_clone.DTO.SpringRedditException;
 import com.example.reddit_clone.entities.NotificationMail;
@@ -9,6 +10,8 @@ import com.example.reddit_clone.repositories.UserRepository;
 import com.example.reddit_clone.repositories.VerifTokenRepository;
 import com.example.reddit_clone.services.mails.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,8 @@ public class AuthService {
     private VerifTokenRepository verifTokenRepository;
     @Autowired
     private MailService mailService ;
+    @Autowired
+    private AuthenticationManager   authenticationManager ;
 
 
 
@@ -85,6 +90,14 @@ public class AuthService {
         userRepository.findById(user.getUserId()).orElseThrow(()-> new SpringRedditException("User not Found !"));
         user.setEnabled(true);
         userRepository.save(user);
+
+    }
+
+    public void login (LoginRequest loginRequest){
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword()));
+
+
 
     }
 }
