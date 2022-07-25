@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Transactional //DB
+
 public class AuthService {
 
     @Autowired
@@ -32,7 +32,7 @@ public class AuthService {
 
 
 
-
+    @Transactional //DB
     public void signup(RegisterRequest registerRequest){
         //take registerrequest proprties and set them into user
         //save user to database
@@ -77,6 +77,8 @@ public class AuthService {
 
     }
 
+
+    @Transactional //DB
     public void findUserAndEnable(VerficationToken verficationToken){
         User user = verficationToken.getUser();
         //find user
