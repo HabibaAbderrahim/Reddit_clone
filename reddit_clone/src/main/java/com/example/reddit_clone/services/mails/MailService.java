@@ -20,7 +20,7 @@ public class MailService {
     @Autowired
     private JavaMailSender mailSender ; //mail
 
-    @Async
+    @Async //running time
     public void sendMail(NotificationMail notificationEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
